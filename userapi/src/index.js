@@ -16,11 +16,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => res.send("Hello world ! Commence par mettre dans l'url /menu"))
-
 app.use('/user', userRouter)
 
-app.use('/menu', menu)
+app.use('/', menu)
 
 const server = app.listen(port, (err) => {
   if (err) throw err
