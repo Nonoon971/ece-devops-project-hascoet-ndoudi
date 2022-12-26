@@ -1,9 +1,9 @@
 const express = require('express')
 const userRouter = require('./routes/user')
 const bodyParser = require('body-parser')
-
+const menu = require('./menu')
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 
 const db = require('./dbClient')
 db.on("error", (err) => {
@@ -16,9 +16,11 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send("Hello world ! Commence par mettre dans l'url /menu"))
 
 app.use('/user', userRouter)
+
+app.use('/menu', menu)
 
 const server = app.listen(port, (err) => {
   if (err) throw err
