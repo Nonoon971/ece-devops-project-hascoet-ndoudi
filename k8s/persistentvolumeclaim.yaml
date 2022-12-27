@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: pv-claim
 spec:
-  storageClassName: manual
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 3Gi
+      storage: 2Gi

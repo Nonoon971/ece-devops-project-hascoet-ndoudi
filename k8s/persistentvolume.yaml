@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pvolume
+  name: pv-volume
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: standard
   capacity:
-    storage: 10Gi
+    storage: 8Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
