@@ -1,14 +1,11 @@
 {
-  "name": "ece-userapi",
+  "name": "myuserapi",
   "version": "1.0.0",
-  "description": "User API web application",
-  "main": "src/index.js",
+  "description": "User API web application Devops",
+  "main": "userapi/src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "test": "mocha test/*.js"
+    "start": "node userapi/src/index.js"
   },
-  "author": "",
-  "license": "",
   "dependencies": {
     "express": "^4.18.2",
     "formidable": "^2.1.1",

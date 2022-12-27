@@ -1,9 +1,13 @@
-FROM node:12
+FROM node:18
 
-WORKDIR /usr/src/app
+WORKDIR ./userapi
+
 COPY package*.json ./
+
 RUN npm install
+
 COPY . .
 
 EXPOSE 8080
+
 CMD [ "npm", "start" ]
