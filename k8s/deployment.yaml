@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-master
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+          - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsprojet-deployment
+  labels:
+    app: devopsprojet
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devopsprojet
+  template:
+    metadata:
+      labels:
+        app: devopsprojet
+    spec:
+      containers:
+      - name: devopsprojet
+        image: camille99/devopsprojet
+        ports:
+          - containerPort: 8080
+        env:
+          - name: REDIS_HOST
+            value: redis-master
+          - name: REDIS_PORT
+            value: "6379"

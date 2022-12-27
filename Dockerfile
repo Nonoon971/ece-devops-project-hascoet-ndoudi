@@ -1,6 +1,6 @@
 FROM node:18
 
-WORKDIR ./userapi
+WORKDIR /userapi
 
 COPY package*.json ./
 

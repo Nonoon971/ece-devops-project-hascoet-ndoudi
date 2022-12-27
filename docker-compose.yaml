@@ -8,4 +8,4 @@ services:
     build: .
     ports:
       - "5000:8080"
-    image: camille99/projet-devops
+    image: camille99/devopsprojet
