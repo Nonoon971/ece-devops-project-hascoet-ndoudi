@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: devopsprojet-service
+spec:
+  hosts:
+    - devopsprojet-service
+  http:
+  - route:
+    - destination:
+        host: devopsprojet-service
+        subset: v1
+      weight: 50
+    - destination:
+        host: devopsprojet-service
+        subset: v2
+      weight: 50

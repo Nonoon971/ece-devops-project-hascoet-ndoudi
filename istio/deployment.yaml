@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-master-v1
+  labels:
+    app: redis
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: redis
+        version: v1
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+          - containerPort: 6379
+---
+### Deuxième version
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-master-v2
+  labels:
+    app: redis
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: redis
+        version: v2
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+          - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsprojet-deployment-v1
+  labels:
+    app: devopsprojet
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devopsprojet
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: devopsprojet
+        version: v1
+    spec:
+      containers:
+      - name: devopsprojet
+        image: camille99/devopsprojet
+        ports:
+          - containerPort: 8080
+        env:
+          - name: REDIS_HOST
+            value: redis-master
+          - name: REDIS_PORT
+            value: "6379"
+---
+### Deuxième version de devopsprojet
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsprojet-deployment-v2
+  labels:
+    app: devopsprojet
+    version: v2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devopsprojet
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: devopsprojet
+        version: v2
+    spec:
+      containers:
+      - name: devopsprojet
+        image: camille99/devopsprojet
+        ports:
+          - containerPort: 8080
+        env:
+          - name: REDIS_HOST
+            value: redis-master
+          - name: REDIS_PORT
+            value: "6379"
