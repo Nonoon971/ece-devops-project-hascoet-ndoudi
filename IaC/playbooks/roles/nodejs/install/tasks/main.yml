@@ -1,0 +1,81 @@
+---
+- name: Install required packages
+  yum:
+    name:
+      - curl
+      - policycoreutils-python
+      - openssh-server
+    state: latest
+
+- name: Enable and start sshd
+  service:
+    name: sshd
+    state: started
+    enabled: yes
+
+- name: Enable HTTP+HTTPS access
+  firewalld:
+    # This is how we use a variable
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  # The module will be run for each item
+  with_items:
+    - http
+    - https
+
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: Install postfix
+  yum:
+    name: postfix
+    state: latest
+
+- name: Enable and start postfix
+  service:
+    name: postfix
+    state: started
+    enabled: yes
+
+#Approvisionnement de redis
+- name: Download redis.rpm file
+  get_url:
+    url: https://rpmfind.net/linux/remi/enterprise/7/remi/x86_64/redis-6.0.15-1.el7.remi.x86_64.rpm
+    dest: /home
+    mode: '064'
+
+- name: install redis
+  yum:
+      name: /home/redis-6.0.15-1.el7.remi.x86_64.rpm
+      state: present
+
+- name: Start redis service
+  service:
+    name: redis
+    state: started
+
+#Approvisionnement de la VM avec nodejs
+- name: Add node.js repo
+  yum_repository:
+    name: nodejs
+    description: Node JS
+    baseurl: https://rpm.nodesource.com/pub_16.x/el/7/x86_64/
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+
+- name: Install package
+  yum:
+    name:
+      - https://rpm.nodesource.com/pub_16.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm
+    state: present
+
+- name: Install nodejs
+  yum:
+    name: nodejs-16.*
+    state: present
+    enablerepo: 'nodesource'
+

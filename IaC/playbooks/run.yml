@@ -1,0 +1,11 @@
+---
+- hosts: projetedevops_server
+  # Run commands as root
+  become: true
+  # Roles to be executed on these hosts
+  roles:
+  - role: nodejs/install
+    tags: install
+
+  - role: nodejs/healthchecks
+    tags: check
