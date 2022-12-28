@@ -1,4 +1,4 @@
-const redis = require('redis')
+var redis = require('redis')
 const configure = require('./configure')
 
 const config = configure()

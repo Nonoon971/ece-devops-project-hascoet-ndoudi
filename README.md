@@ -1,4 +1,4 @@
-# ece-devOps-project-hascoet-ndoudi
+# Projet DevOps Ndoudi & Hascoët
 
 Bienvenue dans le référentiel de notre projet DevOps ! Le but de ce projet est de mettre en oeuvre des logiciels nous permettant une automatisation du développement, des tests, du déploiement d'une application web API utilisant, pour stockage, une base de donnée Redis.
 
@@ -61,6 +61,7 @@ Vous trouverez dans ce référentiel comment vous pourrez mettre en place:
   npm test
   ```
   Les 12 tests doivent être réussis 
+
   ![résultat test](image/test.png)
 
 ### Exécuter l'application
@@ -213,8 +214,81 @@ vagrant halt
 ```
 
 ## 4. Créer une image Docker de l'application
+La création d'un docker image nous permet de conteuneriser une application afin qu'une tiers personne puisse utiliser notre application dans l'environnement que nous voulons.
+
+### Récupération de l'image
+
+Installer [Docker Desktop](https://www.docker.com/get-started/)
+
+* Placer dans le root du projet
+
+Vous pouvez executer la ligne suivante:
+
+```bash
+docker build -t devops-projet .
+```
+
+**N'oubliez pas de mettre le point**
+
+Ou nous avons push notre image docker sur DockerHub
+
+![DockerHub](image/dockerimage.png)
+
+```bash
+docker pull camille99/devopsprojet
+```
+
+* Verifier que l'image est présente
+
+```bash
+docker images
+```
+
+* Exécuter le container
+
+```bash
+docker run -p 5000:8080 -d camille99/devopsprojet
+```
+
+* Vérifier que le container est actif
+
+```bash
+docker ps
+```
+Récupérer l'id du container pour plus tard
+
+* Diriger vous vers http://localhost:5000/
+
+Vous devriez voir cette page s'afficher
+![Accueil](image/accueil.png)
+
+* Vous pouvez dès à présent arrêter le container
+
+```bash
+docker stop <CONTAINER_ID>
+```
 
 ## 5. Orchestration des conteneurs à l'aide de Docker Compose
+L'image que nous venons de créer précedement ne pouvait pas executer plusieurs container et donc celui de la database
+
+Docker Compose nous permet de créer plusieurs container.
+
+* Executer la commande docker-compose afin de créer et demarrer les container
+
+```bash
+docker-compose up
+```
+
+* Diriger vous vers http://localhost:5000/ 
+
+Vous devriez voir cette page s'afficher
+![Accueil](image/accueil.png)
+
+* Vous pouvez si vous le souhaitez supprimer les containers
+
+```bash
+docker-compose rm
+```
 
 ## 6. Orchestration Docker avec Kubernetes
  Kubernetes est une plate-forme open-source pour les services conteneurisés (et autres) facilitant le déploiement, la mise à l'échelle et la gestion des applications.  
@@ -248,6 +322,54 @@ vagrant halt
 
   * Le fichier persistentvolumeclaim.yaml est une demande de stockage par un utilisateur. Il est similaire à un Pod.
 
+### Vérification du bon déroulement
+
+* Vous pouvez vérifier les deploiements :
+```bash
+kubectl get deployments
+```
+
+![deploiement](image/deployment.png)
+
+* Vous pouvez vérifier les services :
+```bash
+kubectl get services
+```
+
+Voici ce que vous devri
+![service](image/service.png)
+
+* Vous pouvez vérifier le persistent volume :
+```bash
+kubectl get pv
+```
+
+![persistentvolume](image/pv.png)
+
+* Vous pouvez vérifier le persistent volume claim :
+```bash
+kubectl get pvc
+```
+
+![persistentvolumeclaim](image/pv.png)
+
+### Accés à l'application
+
+* Exécuter la commande suivante
+
+```bash
+minikube service devopsprojet-service
+```
+
+La page web s'ouvrira d'elle-même avec le bon port. 
+
+Ceci devrait s'afficher dans votre navigateur 
+
+![Minikubepage](image/minikubeweb.png)
+
+Ceci devrait s'afficher dans votre terminal
+![minikubeterminal](image/minikube.png)
+
 ## 7. Service mesh avec Istio
  Istio est une plateforme de Service Mesh permettant de contrôler la manière dont les données sont partagées entre les micro-services.
 
@@ -280,3 +402,10 @@ vagrant halt
 ## Contributeurs
 - NDOUDI Norine <norine.ndoudi@edu.ece.fr>
 - HASCOËT Camille <camille.hascoet@edu.ece.fr>
+
+
+## Bibliographie
+
+Front-End de l'application : https://codeforgeek.com/render-html-file-expressjs/
+
+Playbook role pour installer nodeJS avec Ansible : https://gist.github.com/ikr0m/ab1b6ad92dcde00cc4e17125d28e82df
